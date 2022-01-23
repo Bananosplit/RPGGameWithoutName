@@ -1,4 +1,6 @@
 ﻿using Assets.CodeBase.Infrastructure.AllServices;
+using Assets.CodeBase.Infrastructure.AllServices.LoadService;
+using Assets.CodeBase.Infrastructure.AllServices.PersistentProgress;
 using Assets.CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure;
 using CodeBase.Logic;
@@ -18,7 +20,16 @@ namespace Assets.CodeBase.Infrastructure.States {
         public StateMachine(SceneLoader sceneLoader, LoadingCurtain curtain) {
             states = new Dictionary<Type, IExitableState>() {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, ServiceLocator.Container),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, ServiceLocator.Container.Single<IGameFactory>()),
+                [typeof(LoadProgressState)] = new LoadProgressState(
+                                                this,
+                                                ServiceLocator.Container.Single<IPersistentProgress>(),
+                                                ServiceLocator.Container.Single<ISaveLoadService>()),
+                [typeof(LoadLevelState)] = new LoadLevelState(
+                                            this,
+                                            sceneLoader,
+                                            curtain,
+                                            ServiceLocator.Container.Single<IGameFactory>(),
+                                            ServiceLocator.Container.Single<IPersistentProgress>()),
                 [typeof(GameLoopState)] = new GameLoopState(this)
             };
         }

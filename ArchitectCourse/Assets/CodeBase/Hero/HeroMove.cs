@@ -1,16 +1,39 @@
 ﻿using System;
+using Assets.CodeBase.Data;
 using Assets.CodeBase.Infrastructure.AllServices;
 using Assets.CodeBase.Infrastructure.AllServices.Input;
+using Assets.CodeBase.Infrastructure.AllServices.PersistentProgress;
 using CodeBase.Infrastructure;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CodeBase.Hero {
-    public class HeroMove : MonoBehaviour
+    public class HeroMove : MonoBehaviour, ISavedProgressReader
     {
         public CharacterController CharacterController;
         public float MovementSpeed = 4.0f;
         private IInputService _inputService;
         private Camera _camera;
+
+
+        public void SaveProgress(PlayerProgress progress) {
+            progress.WorldData.PositionOnLevel = 
+                new PositionOnLevel(transform.position.AsVectorData(), SceneManager.GetActiveScene().name);
+        }
+
+        public void LoadProgress(PlayerProgress progress) {
+            if(SceneManager.GetActiveScene().name == progress.WorldData.PositionOnLevel.SceneName) {
+                var savedPosition = progress.WorldData.PositionOnLevel.Position;
+                if(savedPosition != null) 
+                    Swap(savedPosition);
+            }
+        }
+
+        private void Swap(Vector3Data to) {
+            CharacterController.enabled = false;
+            transform.position = to.AsUnityVector3().AddY(CharacterController.height);
+            CharacterController.enabled = true;
+        }
 
         private void Awake()
         {
@@ -41,4 +64,6 @@ namespace CodeBase.Hero {
             CharacterController.Move(MovementSpeed * movementVector * Time.deltaTime);
         }
     }
+
+    
 }

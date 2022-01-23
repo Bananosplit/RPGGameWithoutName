@@ -7,6 +7,5 @@ namespace Assets.CodeBase.Infrastructure.AssetManagment {
 
         public GameObject Instantiate(string path);
         public GameObject Instantiate(string path, Vector3 at);
-
     }
 }

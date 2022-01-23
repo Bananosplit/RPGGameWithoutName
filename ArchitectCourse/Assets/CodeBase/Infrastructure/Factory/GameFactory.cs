@@ -1,8 +1,14 @@
-﻿using Assets.CodeBase.Infrastructure.AssetManagment;
+﻿using Assets.CodeBase.Infrastructure.AllServices.PersistentProgress;
+using Assets.CodeBase.Infrastructure.AssetManagment;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.CodeBase.Infrastructure.Factory {
     class GameFactory : IGameFactory {
+
+        public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
+        public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
 
 
         private readonly IAssetProvider assetProvider;
@@ -12,9 +18,36 @@ namespace Assets.CodeBase.Infrastructure.Factory {
             this.assetProvider = assetProvider;
         }
 
-        public GameObject CreateHero(GameObject at) => 
-            assetProvider.Instantiate(AssetsPath.heroPath, at.transform.position);
+        public GameObject CreateHero(GameObject at) => InstntiateRegistered(AssetsPath.heroPath, at.transform.position);
 
-        public void CreateHudSub() => assetProvider.Instantiate(AssetsPath.hudSubDisplayPath);
+        public void CreateHudSub() => InstantiateRegistered(AssetsPath.hudSubDisplayPath);
+
+
+        public void CleanUp() {
+            ProgressReaders.Clear();
+            ProgressWriters.Clear();
+        }
+
+        private GameObject InstntiateRegistered(string path, Vector3 position) {
+            GameObject gameObject = assetProvider.Instantiate(path, position);
+            RegisterProgressWatchers(gameObject);
+            return gameObject;
+        }
+
+        private GameObject InstantiateRegistered(string path) {
+            GameObject gameObject = assetProvider.Instantiate(path);
+            RegisterProgressWatchers(gameObject);
+            return gameObject;
+        }
+
+        private void RegisterProgressWatchers(GameObject gameObject) {
+            foreach (ISavedProgressReader progressReader in gameObject.GetComponentsInChildren<ISavedProgressReader>())
+                Register(progressReader);
+        }
+
+        private void Register(ISavedProgressReader progressReader) {
+            if (progressReader is ISavedProgress) ProgressWriters.Add(progressReader);
+            ProgressReaders.Add(progressReader);
+        }
     }
 }
