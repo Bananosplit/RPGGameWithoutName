@@ -10,6 +10,8 @@ namespace Assets.CodeBase.Infrastructure.Factory {
         public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
         public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
 
+        public GameObject HeroGameObject { get; set; }
+        public event Action HeroCreated;
 
         private readonly IAssetProvider assetProvider;
 
@@ -18,7 +20,11 @@ namespace Assets.CodeBase.Infrastructure.Factory {
             this.assetProvider = assetProvider;
         }
 
-        public GameObject CreateHero(GameObject at) => InstntiateRegistered(AssetsPath.heroPath, at.transform.position);
+        public GameObject CreateHero(GameObject at) {
+            HeroGameObject = InstntiateRegistered(AssetsPath.heroPath, at.transform.position);
+            HeroCreated?.Invoke();
+            return HeroGameObject;
+        }
 
         public void CreateHudSub() => InstantiateRegistered(AssetsPath.hudSubDisplayPath);
 

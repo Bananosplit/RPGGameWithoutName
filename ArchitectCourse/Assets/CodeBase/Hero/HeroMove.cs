@@ -42,6 +42,8 @@ namespace CodeBase.Hero {
 
         private void Start()
         {
+            var rbody = GetComponent<Rigidbody>();
+            rbody.freezeRotation = true;
             _camera = Camera.main;
         }
 
