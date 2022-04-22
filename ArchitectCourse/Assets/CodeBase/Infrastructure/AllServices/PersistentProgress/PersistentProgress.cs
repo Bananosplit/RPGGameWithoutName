@@ -7,6 +7,18 @@ using System.Threading.Tasks;
 
 namespace Assets.CodeBase.Infrastructure.AllServices.PersistentProgress {
     public class PersistentProgress : IPersistentProgress {
-        public PlayerProgress Progress { get; set; }
+
+        private PlayerProgress progress;
+
+
+        public PlayerProgress GetProgress()
+        {
+            return progress;
+        }
+
+        public void SetProgress(PlayerProgress value)
+        {
+            progress = value;
+        }
     }
 }

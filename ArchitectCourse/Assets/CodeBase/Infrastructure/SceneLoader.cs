@@ -4,15 +4,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CodeBase.Infrastructure {
-    public class SceneLoader  {
-        private readonly ICorutineRunner corutine;
 
-        public SceneLoader(ICorutineRunner corutine) {
-            this.corutine = corutine;
+    public class SceneLoader  {
+
+        private readonly ICoroutineRunner coroutine;
+
+        public SceneLoader(ICoroutineRunner coroutine) {
+            this.coroutine = coroutine;
         }
 
         public void Load(string name, Action onLoaded = null) {
-            corutine.StartCoroutine(LoadScene(name, onLoaded));
+            coroutine.StartCoroutine(LoadScene(name, onLoaded));
         }
 
         private IEnumerator LoadScene(string name, Action onLoaded) {

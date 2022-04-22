@@ -48,15 +48,25 @@ namespace Assets.CodeBase.Infrastructure.States {
 
         private void InformProgressReaders() {
             foreach (var progressReader in gameFactory.ProgressReaders)
-                progressReader.LoadProgress(persistentProgress.Progress);
+                progressReader.LoadProgress(persistentProgress.GetProgress());
         }
 
-        private void InitGameWorld() {
-            var hero = gameFactory.CreateHero(GameObject.FindWithTag(startHeroPosition));
-
-            gameFactory.CreateHudSub();
-
+        private void InitGameWorld()
+        {
+            GameObject hero = InitHero();
+            CreateSubHud(hero);
             CameraFollow(hero);
+        }
+
+        private GameObject InitHero()
+        {
+            return gameFactory.CreateHero(GameObject.FindWithTag(startHeroPosition));
+        }
+
+        private void CreateSubHud(GameObject hero)
+        {
+            GameObject hud = gameFactory.CreateHudSub();
+            hud.GetComponentInChildren<ActorUI>().SetHealth(hero.GetComponent<HeroHealth>());
         }
 
         private void CameraFollow(GameObject gameObject) =>
