@@ -1,4 +1,5 @@
-﻿using Assets.CodeBase.Data;
+﻿using AssemblyCSharp.Assets.CodeBase.Data;
+using Assets.CodeBase.Data;
 using Assets.CodeBase.Infrastructure.AllServices.PersistentProgress;
 using Assets.CodeBase.Infrastructure.Factory;
 
@@ -17,15 +18,19 @@ namespace Assets.CodeBase.Infrastructure.AllServices.LoadService {
             this.gameFactory = gameFactory;
         }
 
-        public void SaveProgress() {
+        public void SaveProgress() { 
             foreach (var progressWriters in gameFactory.ProgressWriters) 
-                progressWriters.SaveProgress(playerProgress.Progress);
+                progressWriters.SaveProgress(playerProgress.GetProgress());
 
-            PlayerPrefs.SetString(KeyString, playerProgress.Progress.WorldData.ToJson());
-            
+            var progressJson = playerProgress.GetProgress().ToJson();
+
+            PlayerPrefs.SetString(KeyString, progressJson);
             PlayerPrefs.Save();
         }
 
-        public PlayerProgress LoadProgress() => new PlayerProgress { WorldData = PlayerPrefs.GetString(KeyString)?.ToDeserialized<WorldData>() };
+        public PlayerProgress LoadProgress() {
+            PlayerProgress load = PlayerPrefs.GetString(KeyString)?.ToDeserialized<PlayerProgress>();
+            return load;
+        }
     }
 }

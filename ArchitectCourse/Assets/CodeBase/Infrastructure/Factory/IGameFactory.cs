@@ -15,6 +15,6 @@ namespace Assets.CodeBase.Infrastructure.Factory {
 
         public void CleanUp();
         public GameObject CreateHero(GameObject at);
-        public void CreateHudSub();
+        public GameObject CreateHudSub();
     }
 }

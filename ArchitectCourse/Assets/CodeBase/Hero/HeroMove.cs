@@ -17,13 +17,13 @@ namespace CodeBase.Hero {
 
 
         public void SaveProgress(PlayerProgress progress) {
-            progress.WorldData.PositionOnLevel = 
+            progress.Level = 
                 new PositionOnLevel(transform.position.AsVectorData(), SceneManager.GetActiveScene().name);
         }
 
         public void LoadProgress(PlayerProgress progress) {
-            if(SceneManager.GetActiveScene().name == progress.WorldData.PositionOnLevel.SceneName) {
-                var savedPosition = progress.WorldData.PositionOnLevel.Position;
+            if(SceneManager.GetActiveScene().name == progress.Level.SceneName) {
+                var savedPosition = progress.Level.Position;
                 if(savedPosition != null) 
                     Swap(savedPosition);
             }

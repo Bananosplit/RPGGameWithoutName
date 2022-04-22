@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
+using CodeBase.Enemy;
 
 namespace Assets.CodeBase.Enemies
 {

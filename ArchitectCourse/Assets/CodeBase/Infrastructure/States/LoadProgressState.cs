@@ -23,20 +23,24 @@ namespace Assets.CodeBase.Infrastructure.States {
 
         public void Enter() {
             LoadProgressOrInitNew();
-            state.Enter<LoadLevelState, string> (progress.Progress.WorldData.PositionOnLevel.SceneName);
+            state.Enter<LoadLevelState, string> (progress.GetProgress().Level.SceneName);
         }
 
         public void Exit() {
         }
 
         private void LoadProgressOrInitNew() {
-            if (loadService.LoadProgress().WorldData == null)
-                progress.Progress = NewProgress();
-            else progress.Progress = loadService.LoadProgress();
+            if (loadService.LoadProgress() == null)
+                progress.SetProgress(NewProgress());
+            else progress.SetProgress(loadService.LoadProgress());
         }
 
         private PlayerProgress NewProgress() {
-            return new PlayerProgress("Main");
+            var newProgress = new PlayerProgress("Main");
+
+            newProgress.HeroState.MaxHP = 100;
+            newProgress.HeroState.Reset();
+            return newProgress;
         }
     }
 }

@@ -9,8 +9,8 @@ namespace CodeBase.Infrastructure {
         public static IInputService InputService;
         public StateMachine State;
        
-        public Game(ICorutineRunner corutine, LoadingCurtain curtain) {
-            State = new StateMachine(new SceneLoader(corutine), curtain);
+        public Game(ICoroutineRunner coroutine, LoadingCurtain curtain) {
+            State = new StateMachine(new SceneLoader(coroutine), curtain);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Assets.CodeBase.Infrastructure.AllServices.PersistentProgress;
+﻿using AssemblyCSharp.Assets.CodeBase.Data;
+using Assets.CodeBase.Infrastructure.AllServices.PersistentProgress;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,17 @@ namespace Assets.CodeBase.Data
     [Serializable]
     public class PlayerProgress
     {
-
-        public WorldData WorldData { get; set; }
+        public State HeroState;
+       // public WorldData WorldData { get; set; }
+       public PositionOnLevel Level;
 
         public PlayerProgress() {}
 
         public PlayerProgress(string initialLevel) {
 
-            WorldData = new WorldData(initialLevel);
+      //      WorldData = new WorldData(initialLevel);
+            Level = new PositionOnLevel(initialLevel);
+            HeroState = new State();
         }
     }
 }

@@ -3,7 +3,7 @@ using CodeBase.Logic;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure {
-    public class GameBootstrapper : MonoBehaviour, ICorutineRunner
+    public class GameBootstrapper : MonoBehaviour, ICoroutineRunner
     {
         private Game game;
         public LoadingCurtain CurtainPrefab;

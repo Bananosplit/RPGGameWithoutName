@@ -26,7 +26,7 @@ namespace Assets.CodeBase.Infrastructure.Factory {
             return HeroGameObject;
         }
 
-        public void CreateHudSub() => InstantiateRegistered(AssetsPath.hudSubDisplayPath);
+        public GameObject CreateHudSub() => InstantiateRegistered(AssetsPath.hudSubDisplayPath);
 
 
         public void CleanUp() {
