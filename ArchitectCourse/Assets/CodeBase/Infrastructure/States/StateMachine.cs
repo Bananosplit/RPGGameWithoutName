@@ -18,6 +18,7 @@ namespace Assets.CodeBase.Infrastructure.States {
         private IExitableState currentState;
 
         public StateMachine(SceneLoader sceneLoader, LoadingCurtain curtain) {
+            
             states = new Dictionary<Type, IExitableState>() {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, ServiceLocator.Container),
                 [typeof(LoadProgressState)] = new LoadProgressState(

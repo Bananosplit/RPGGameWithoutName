@@ -1,25 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using CodeBase.Logic;
 using UnityEngine;
 
 public class ActorUI : MonoBehaviour
 {
     public HPBar Hpbar;
-    private HeroHealth HeroHealth;
+    private IHealth Health;
+
+    public void SetHealth(IHealth health)
+    {
+        Health = health;
+        Health.HealthChanged += UpdateHPbar;
+    }
+    private void Start()
+    {
+        IHealth _health = GetComponent<IHealth>();
+
+        if (_health != null)
+            SetHealth(_health);
+    }
 
     private void OnDestroy()
     {
-        HeroHealth.HealthChanged -= UpdateHPbar;
+        if(Health != null)
+        Health.HealthChanged -= UpdateHPbar;
     }
 
-    public void SetHealth(HeroHealth health)
-    {
-        HeroHealth = health;
-        HeroHealth.HealthChanged += UpdateHPbar;
-    }
 
-    public void UpdateHPbar()
+    private void UpdateHPbar()
     {
-        Hpbar.SetValue(HeroHealth.Current, HeroHealth.Max);
+        Hpbar.SetValue(Health.Current, Health.Max);
     }
 }

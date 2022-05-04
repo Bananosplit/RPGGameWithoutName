@@ -5,15 +5,16 @@ using AssemblyCSharp.Assets.CodeBase.Data;
 using Assets.CodeBase.Data;
 using Assets.CodeBase.Infrastructure.AllServices.PersistentProgress;
 using CodeBase.Hero;
+using CodeBase.Logic;
 using UnityEngine;
 
 [RequireComponent(typeof(HeroAnimator))]
-public class HeroHealth : MonoBehaviour, ISavedProgressReader
+public class HeroHealth : MonoBehaviour, ISavedProgressReader, IHealth
 {
     private State state;
 
     public HeroAnimator animator;
-    public Action HealthChanged; 
+    public event Action HealthChanged; 
 
     public float Max {
      
