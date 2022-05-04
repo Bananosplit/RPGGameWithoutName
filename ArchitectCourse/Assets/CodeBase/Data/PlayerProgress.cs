@@ -13,16 +13,16 @@ namespace Assets.CodeBase.Data
     public class PlayerProgress
     {
         public State HeroState;
-       // public WorldData WorldData { get; set; }
-       public PositionOnLevel Level;
+        public PositionOnLevel Level;
+        public Stats HeroStats;
 
         public PlayerProgress() {}
 
         public PlayerProgress(string initialLevel) {
-
-      //      WorldData = new WorldData(initialLevel);
+        
             Level = new PositionOnLevel(initialLevel);
             HeroState = new State();
+            HeroStats = new Stats();
         }
     }
 }

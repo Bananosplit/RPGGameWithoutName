@@ -4,11 +4,9 @@
     // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
         {
             "name": "Unity Editor",
             "type": "unity",
-            "path": "/home/rudkov-sergey/UnityProgects/RPGGameWithoutName/ArchitectCourse/Library/EditorInstance.json",
             "request": "launch"
         },
         {

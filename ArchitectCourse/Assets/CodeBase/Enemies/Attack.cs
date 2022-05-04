@@ -60,7 +60,7 @@ public class Attack : MonoBehaviour
 
     private void OnAttack(){
         if(Hit(out hit)){
-            hit.transform.GetComponent<HeroHealth>().TakeDamage(Damage);
+            hit.transform.GetComponent<IHealth>().TakeDamage(Damage);
         }
     }
     
