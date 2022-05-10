@@ -13,6 +13,7 @@ namespace Assets.CodeBase.Infrastructure.States {
 
         private readonly StateMachine state;
         private SceneLoader sceneLoader;
+
         private const string startScene = "initial";
 
         private readonly ServiceLocator services;

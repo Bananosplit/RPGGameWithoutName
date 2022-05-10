@@ -42,8 +42,6 @@ namespace CodeBase.Hero {
 
         private void Start()
         {
-            var rbody = GetComponent<Rigidbody>();
-            rbody.freezeRotation = true;
             _camera = Camera.main;
         }
 
@@ -53,7 +51,7 @@ namespace CodeBase.Hero {
 
             if (_inputService.Axis.sqrMagnitude > Constants.Epsilon)
             {
-                //Трансформируем экранныые координаты вектора в мировые
+               
                 movementVector = _camera.transform.TransformDirection(_inputService.Axis);
                 movementVector.y = 0;
                 movementVector.Normalize();
