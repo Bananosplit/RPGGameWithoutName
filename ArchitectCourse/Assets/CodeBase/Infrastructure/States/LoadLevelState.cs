@@ -17,6 +17,9 @@ namespace Assets.CodeBase.Infrastructure.States {
 
         private IGameFactory gameFactory;
         private readonly IPersistentProgress persistentProgress;
+        private string Enemyspawner;
+        
+        private const string enemySpawnerTag = "EnemySpawner";
 
         public LoadLevelState(StateMachine state,
             SceneLoader sceneLoader,
@@ -46,16 +49,28 @@ namespace Assets.CodeBase.Infrastructure.States {
             state.Enter<GameLoopState>();
         }
 
-        private void InformProgressReaders() {
-            foreach (var progressReader in gameFactory.ProgressReaders)
+        private void InformProgressReaders() =>
+            gameFactory.ProgressReaders.ForEach(progressReader =>
+            {
                 progressReader.LoadProgress(persistentProgress.GetProgress());
-        }
+            });
 
         private void InitGameWorld()
         {
+            InitSpawner();
             GameObject hero = InitHero();
             CreateSubHud(hero);
             CameraFollow(hero);
+        }
+
+        private void InitSpawner()
+        {
+            
+            foreach (var spawnerGObject in GameObject.FindGameObjectsWithTag(enemySpawnerTag))
+            {
+                EnemySpawner enemySpawner = spawnerGObject.GetComponent<EnemySpawner>();
+                gameFactory.Register(enemySpawner);
+            }
         }
 
         private GameObject InitHero()

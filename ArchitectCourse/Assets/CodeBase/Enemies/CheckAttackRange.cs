@@ -17,12 +17,6 @@ public class CheckAttackRange : MonoBehaviour
         Attack.DisableAttack();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void TriggerEnter(Collider obj){
         Attack.EnableAttack();
     }

@@ -17,7 +17,7 @@ public class HeroAttrack : MonoBehaviour, ISavedProgressReader
     private IInputService input;
 
     private static int layerMask;
-    private Collider[] hits = new Collider[3];
+    private Collider[] hits = new Collider[4];
     private Stats stats;
 
     private void Awake()
