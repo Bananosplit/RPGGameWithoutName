@@ -1,4 +1,5 @@
-﻿using Assets.CodeBase.Infrastructure.AllServices;
+﻿using AssemblyCSharp.Assets.CodeBase.Infrastructure.AllServices;
+using Assets.CodeBase.Infrastructure.AllServices;
 using Assets.CodeBase.Infrastructure.AllServices.Input;
 using Assets.CodeBase.Infrastructure.AllServices.LoadService;
 using Assets.CodeBase.Infrastructure.AllServices.PersistentProgress;
@@ -34,16 +35,31 @@ namespace Assets.CodeBase.Infrastructure.States {
 
         private void EnterLoadLevel() => state.Enter<LoadProgressState>();
 
-        private void RegisterServices() {
-             
-            services.RegisterSingle<IInputService>(RegisterInputService());
+        private void RegisterServices()
+        {
+
+            RegisterStaticData();
+            services.RegisterSingle(RegisterInputService());
             services.RegisterSingle<IAssetProvider>(new AssetProvider());
             services.RegisterSingle<IPersistentProgress>(new PersistentProgress());
-            services.RegisterSingle<IGameFactory>(new GameFactory(ServiceLocator.Container.Single<IAssetProvider>()));
+            services.RegisterSingle<IGameFactory>(
+                new GameFactory(
+                    ServiceLocator.Container.Single<IAssetProvider>(),
+                    ServiceLocator.Container.Single<IStaticDataService>())
+            );
+
             services.RegisterSingle<ISaveLoadService>(new SaveLoaderService(
                 ServiceLocator.Container.Single<IPersistentProgress>(),
                 ServiceLocator.Container.Single<IGameFactory>())
             );
+
+        }
+
+        private void RegisterStaticData()
+        {
+            StaticDataService staticData = new StaticDataService();
+            staticData.LoadMonsters();
+            services.RegisterSingle<IStaticDataService>(staticData);
         }
 
         private static IInputService RegisterInputService() {
