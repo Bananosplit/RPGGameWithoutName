@@ -7,5 +7,6 @@ namespace CodeBase.Logic
     Attack,
     Walking,
     Died,
+    Wallk
   }
 }

@@ -39,7 +39,7 @@ namespace Assets.CodeBase.Infrastructure.States {
             newProgress.HeroState.Reset();
 
             newProgress.HeroStats.Damage = 15;
-            newProgress.HeroStats.RadiusDamage = 0.5f;
+            newProgress.HeroStats.RadiusDamage = 0.7f;
             return newProgress;
         }
     }

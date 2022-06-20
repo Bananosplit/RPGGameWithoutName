@@ -16,6 +16,6 @@ MonoBehaviour:
   Hp: 24
   Damage: 4.7
   Cleavage: 0.735
-  EffectiveDistance: 0.682
-  MoveSpeed: 0
+  EffectiveDistance: 0.697
+  MoveSpeed: 5.49
   Prefab: {fileID: 5071262939435086672, guid: 57799f6885745a24b96a95120541e4d5, type: 3}

@@ -9,7 +9,7 @@ namespace Assets.CodeBase.Enemies
         public NavMeshAgent Agent;
         private const float minimalDistance = 1f;
         private Transform positionHero;
-
+         
         private void Update() 
         {
             if (positionHero && IsHeroNotReached())

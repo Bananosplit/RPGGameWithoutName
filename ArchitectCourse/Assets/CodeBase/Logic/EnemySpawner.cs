@@ -9,47 +9,47 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour, ISavedProgressReader
 {
- public MonsterTypeId monsterId;
- 
- private string id;
+    public MonsterTypeId monsterId;
+
+    private string id;
     public bool Slain { get; private set; }
     private IGameFactory gameFactory;
     private EnemyDeath enemyDeath;
 
     private void Awake()
-  {
-    id = GetComponent<UniqueId>().Id;
-    gameFactory = ServiceLocator.Container.Single<IGameFactory>();
-  }
+    {
+        id = GetComponent<UniqueId>().Id;
+        gameFactory = ServiceLocator.Container.Single<IGameFactory>();
+    }
 
- public void SaveProgress(PlayerProgress progress)
- {
-  if(Slain)
-   progress.KillData.ClearedSpawners.Add(id);
- }
+    public void SaveProgress(PlayerProgress progress)
+    {
+        if (Slain)
+            progress.KillData.ClearedSpawners.Add(id);
+    }
 
- public void LoadProgress(PlayerProgress progress)
- {
-  if (progress.KillData.ClearedSpawners.Contains(id))
+    public void LoadProgress(PlayerProgress progress)
+    {
+        if (progress.KillData.ClearedSpawners.Contains(id))
             Slain = true;
-  else
-   Spawn();
- }
+        else
+            Spawn();
+    }
 
- private void Spawn()
- {
-       GameObject monster = gameFactory.CreateMonster(MonsterTypeId.Lich, transform);
-       enemyDeath = monster.GetComponent<EnemyDeath>();
-       enemyDeath.Happened += Slay;
- }
+    private void Spawn()
+    {
+        GameObject monster = gameFactory.CreateMonster(monsterId, transform);
+        enemyDeath = monster.GetComponent<EnemyDeath>();
+        enemyDeath.Happened += Slay;
+    }
 
- private void Slay()
- {
-        if(enemyDeath != null)
+    private void Slay()
+    {
+        if (enemyDeath != null)
             enemyDeath.Happened -= Slay;
 
         Slain = true;
- }
+    }
 
 }
 

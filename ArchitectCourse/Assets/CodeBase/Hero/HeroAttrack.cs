@@ -9,6 +9,7 @@ using Assets.CodeBase.Infrastructure.AllServices.PersistentProgress;
 using CodeBase.Hero;
 using CodeBase.Logic;
 using UnityEngine;
+using System;
 
 public class HeroAttrack : MonoBehaviour, ISavedProgressReader
 {
@@ -20,6 +21,7 @@ public class HeroAttrack : MonoBehaviour, ISavedProgressReader
     private Collider[] hits = new Collider[4];
     private Stats stats;
 
+    private Vector3 HitPosition;
     private void Awake()
     {
         input = ServiceLocator.Container.Single<IInputService>();
@@ -30,9 +32,12 @@ public class HeroAttrack : MonoBehaviour, ISavedProgressReader
     {
         if(input.IsAttackButtonUp() && !Animator.IsAttacking)
         {
+            HitPosition = StartPoint() +  transform.InverseTransformDirection(Vector3.forward);
             Animator.PlayAttack();
         }
     }
+
+ 
 
     private void OnAttack()
     {
@@ -42,22 +47,25 @@ public class HeroAttrack : MonoBehaviour, ISavedProgressReader
         }
     }
 
-    private int Hit() => Physics.OverlapSphereNonAlloc(
+    private int Hit()
+    {
+
+        
+        OverlapDebug.DrawDebug(HitPosition, 5, 5);
+        return Physics.OverlapSphereNonAlloc(
+
             StartPoint() + Vector3.forward,
             stats.RadiusDamage,
             hits,
             layerMask
             );
+    }
 
-    private Vector3 StartPoint()
-    {
-        OverlapDebug.DrawDebug(transform.position, 5, 5);
-        return new Vector3(
+    private Vector3 StartPoint() => new Vector3(
             transform.position.x,
             Controller.center.y / 2,
             transform.position.z
         );
-    }
 
     public void LoadProgress(PlayerProgress progress)
     {

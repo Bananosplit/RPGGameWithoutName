@@ -15,6 +15,7 @@ namespace CodeBase.Enemy
     private readonly int _idleStateHash = Animator.StringToHash("idle");
     private readonly int _attackStateHash = Animator.StringToHash("attack01");
     private readonly int _walkingStateHash = Animator.StringToHash("Move");
+    //private readonly int _walkingGolemStateHash = Animator.StringToHash("Wallk");
     private readonly int _deathStateHash = Animator.StringToHash("die");
 
     private Animator _animator;
@@ -52,16 +53,18 @@ namespace CodeBase.Enemy
     private AnimatorState StateFor(int stateHash)
     {
       AnimatorState state;
-      if (stateHash == _idleStateHash)
-        state = AnimatorState.Idle;
-      else if (stateHash == _attackStateHash)
-        state = AnimatorState.Attack;
-      else if (stateHash == _walkingStateHash)
-        state = AnimatorState.Walking;
-      else if (stateHash == _deathStateHash)
-        state = AnimatorState.Died;
-      else
-        state = AnimatorState.Unknown;
+            if (stateHash == _idleStateHash)
+                state = AnimatorState.Idle;
+            else if (stateHash == _attackStateHash)
+                state = AnimatorState.Attack;
+            else if (stateHash == _walkingStateHash)
+                state = AnimatorState.Walking;
+            else if (stateHash == _deathStateHash)
+                state = AnimatorState.Died;
+            /*else if (stateHash == _walkingGolemStateHash)
+                state = AnimatorState.Wallk;*/
+            else
+                state = AnimatorState.Unknown;
       
       return state;
     }
