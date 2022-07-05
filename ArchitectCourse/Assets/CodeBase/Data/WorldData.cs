@@ -8,6 +8,7 @@ namespace Assets.CodeBase.Data
     {
 
         public PositionOnLevel PositionOnLevel;
+        public LootData LootData;
 
         public WorldData(string name) {
             PositionOnLevel = new PositionOnLevel(name);

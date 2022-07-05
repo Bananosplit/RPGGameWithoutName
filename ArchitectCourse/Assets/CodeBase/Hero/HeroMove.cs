@@ -12,38 +12,16 @@ namespace CodeBase.Hero {
     {
         public CharacterController CharacterController;
         public float MovementSpeed = 4.0f;
+
         private IInputService _inputService;
         private Camera _camera;
-
-
-        public void SaveProgress(PlayerProgress progress) {
-            progress.Level = 
-                new PositionOnLevel(transform.position.AsVectorData(), SceneManager.GetActiveScene().name);
-        }
-
-        public void LoadProgress(PlayerProgress progress) {
-            if(SceneManager.GetActiveScene().name == progress.Level.SceneName) {
-                var savedPosition = progress.Level.Position;
-                if(savedPosition != null) 
-                    Swap(savedPosition);
-            }
-        }
-
-        private void Swap(Vector3Data to) {
-            CharacterController.enabled = false;
-            transform.position = to.AsUnityVector3().AddY(CharacterController.height);
-            CharacterController.enabled = true;
-        }
 
         private void Awake()
         {
             _inputService = ServiceLocator.Container.Single<IInputService>();
         }
 
-        private void Start()
-        {
-            _camera = Camera.main;
-        }
+        private void Start() => _camera = Camera.main;
 
         private void Update()
         {
@@ -51,7 +29,7 @@ namespace CodeBase.Hero {
 
             if (_inputService.Axis.sqrMagnitude > Constants.Epsilon)
             {
-               
+
                 movementVector = _camera.transform.TransformDirection(_inputService.Axis);
                 movementVector.y = 0;
                 movementVector.Normalize();
@@ -60,10 +38,32 @@ namespace CodeBase.Hero {
             }
 
             movementVector += Physics.gravity;
-            
+
             CharacterController.Move(MovementSpeed * movementVector * Time.deltaTime);
         }
-    }
 
+        public void SaveProgress(PlayerProgress progress) {
+            progress.Level =
+            new PositionOnLevel(transform.position.AsVectorData(), SceneManager.GetActiveScene().name);
+        }
+
+        public void LoadProgress(PlayerProgress progress) {
+            if(SceneManager.GetActiveScene().name == progress.Level.SceneName) {
+                var savedPosition = progress.Level.Position;
+                if(savedPosition != null)
+                Warp(savedPosition);
+            }
+        }
+
+        private void Warp(Vector3Data to) {
+
+            CharacterController.enabled = false;
+            transform.position = to.AsUnityVector3().AddY(CharacterController.height);
+            CharacterController.enabled = true;
+        }
+
+        private static string CurrentLevel() =>
+      SceneManager.GetActiveScene().name;
+    }
     
 }

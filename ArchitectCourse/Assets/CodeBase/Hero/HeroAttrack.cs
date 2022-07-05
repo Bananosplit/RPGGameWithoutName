@@ -11,6 +11,7 @@ using CodeBase.Logic;
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(HeroAnimator), typeof(CharacterController))]
 public class HeroAttrack : MonoBehaviour, ISavedProgressReader
 {
     public HeroAnimator Animator;
@@ -21,7 +22,6 @@ public class HeroAttrack : MonoBehaviour, ISavedProgressReader
     private Collider[] hits = new Collider[4];
     private Stats stats;
 
-    private Vector3 HitPosition;
     private void Awake()
     {
         input = ServiceLocator.Container.Single<IInputService>();
@@ -32,40 +32,28 @@ public class HeroAttrack : MonoBehaviour, ISavedProgressReader
     {
         if(input.IsAttackButtonUp() && !Animator.IsAttacking)
         {
-            HitPosition = StartPoint() +  transform.InverseTransformDirection(Vector3.forward);
             Animator.PlayAttack();
         }
     }
 
- 
-
     private void OnAttack()
     {
-        for (int i = 0; i < Hit(); i++)
+        OverlapDebug.DrawDebug(StartPoint() + transform.forward, stats.RadiusDamage, 2);
+        for (int i = 0; i < Hit(); ++i)
         {
             hits[i].transform.parent.GetComponent<IHealth>().TakeDamage(stats.Damage);
         }
     }
 
-    private int Hit()
-    {
-
-        
-        OverlapDebug.DrawDebug(HitPosition, 5, 5);
-        return Physics.OverlapSphereNonAlloc(
-
-            StartPoint() + Vector3.forward,
+    private int Hit() => Physics.OverlapSphereNonAlloc(
+            StartPoint() + transform.forward,
             stats.RadiusDamage,
             hits,
-            layerMask
-            );
-    }
+            layerMask );
 
-    private Vector3 StartPoint() => new Vector3(
-            transform.position.x,
-            Controller.center.y / 2,
-            transform.position.z
-        );
+    private Vector3 StartPoint() =>
+       new Vector3(transform.position.x, Controller.center.y / 2, transform.position.z);
+
 
     public void LoadProgress(PlayerProgress progress)
     {

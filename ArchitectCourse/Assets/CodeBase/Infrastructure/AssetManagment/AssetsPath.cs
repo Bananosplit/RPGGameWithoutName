@@ -9,5 +9,6 @@ namespace Assets.CodeBase.Infrastructure.AssetManagment {
 
         public const string heroPath = "Hero/hero";
         public const string hudSubDisplayPath = "Hud/Hud";
+        public const string Loot = "Loot/Loot";
     }
 }

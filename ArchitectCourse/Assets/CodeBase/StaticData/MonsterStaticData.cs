@@ -5,7 +5,10 @@ using UnityEngine;
 public class MonsterStaticData : ScriptableObject
 {
     public MonsterTypeId MonsterType;
-    
+
+    public int MaxLoot;
+    public int MinLoot;
+
     [Range(1,100)]
     public float Hp;
  

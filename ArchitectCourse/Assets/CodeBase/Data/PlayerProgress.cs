@@ -15,6 +15,7 @@ namespace Assets.CodeBase.Data
         public PositionOnLevel Level;
         public Stats HeroStats;
         public KillData KillData;
+        public LootData LootData;
 
         public PlayerProgress() {}
 
@@ -24,6 +25,7 @@ namespace Assets.CodeBase.Data
             HeroState = new State();
             HeroStats = new Stats();
             KillData = new KillData();
+            LootData = new LootData();
         }
 
         

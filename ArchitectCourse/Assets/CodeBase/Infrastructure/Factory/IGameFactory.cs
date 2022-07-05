@@ -12,7 +12,9 @@ namespace Assets.CodeBase.Infrastructure.Factory {
         List<ISavedProgress> ProgressWriters { get; }
 
         GameObject HeroGameObject { get; }
+
         void CleanUp();
+        LootPieace CreateLoot();
         GameObject CreateHero(GameObject at);
         GameObject CreateHudSub();
         void Register(ISavedProgressReader reader);

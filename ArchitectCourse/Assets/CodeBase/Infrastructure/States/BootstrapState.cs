@@ -37,7 +37,7 @@ namespace Assets.CodeBase.Infrastructure.States {
 
         private void RegisterServices()
         {
-
+            IRandomServise randomServise = new RandomService();
             RegisterStaticData();
             services.RegisterSingle(RegisterInputService());
             services.RegisterSingle<IAssetProvider>(new AssetProvider());
@@ -45,13 +45,16 @@ namespace Assets.CodeBase.Infrastructure.States {
             services.RegisterSingle<IGameFactory>(
                 new GameFactory(
                     ServiceLocator.Container.Single<IAssetProvider>(),
-                    ServiceLocator.Container.Single<IStaticDataService>())
+                    ServiceLocator.Container.Single<IStaticDataService>(),
+                    randomServise,
+                    ServiceLocator.Container.Single<IPersistentProgress>())
             );
 
             services.RegisterSingle<ISaveLoadService>(new SaveLoaderService(
                 ServiceLocator.Container.Single<IPersistentProgress>(),
                 ServiceLocator.Container.Single<IGameFactory>())
             );
+
 
         }
 

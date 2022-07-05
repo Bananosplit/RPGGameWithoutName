@@ -20,11 +20,15 @@ namespace Assets.CodeBase.Infrastructure.Factory {
 
         private readonly IAssetProvider assetProvider;
         private readonly IStaticDataService staticData;
+        private readonly IRandomServise randomServise;
+        private readonly IPersistentProgress persistentProgress; 
+        
 
-
-        public GameFactory(IAssetProvider assetProvider, IStaticDataService staticData) {
+        public GameFactory(IAssetProvider assetProvider, IStaticDataService staticData, IRandomServise randomServise, IPersistentProgress persistentProgress) {
             this.assetProvider = assetProvider;
             this.staticData = staticData;
+            this.randomServise = randomServise;
+            this.persistentProgress = persistentProgress;
         }
 
         public GameObject CreateHero(GameObject at) {
@@ -32,8 +36,15 @@ namespace Assets.CodeBase.Infrastructure.Factory {
             return HeroGameObject;
         }
 
-        public GameObject CreateHudSub() => InstantiateRegistered(AssetsPath.hudSubDisplayPath);
+        public GameObject CreateHudSub()
+        {
+            var hud = InstantiateRegistered(AssetsPath.hudSubDisplayPath);
 
+            hud.GetComponentInChildren<LootCounter>()
+                .Construct(persistentProgress.GetProgress());
+
+            return hud;
+        }
 
         public void CleanUp() {
             ProgressReaders.Clear();
@@ -84,7 +95,20 @@ namespace Assets.CodeBase.Infrastructure.Factory {
 
             monster.GetComponent<AgentRotateToPlayer>()?.Construct(HeroGameObject.transform);
 
+            LootSpawner loot = monster.GetComponentInChildren<LootSpawner>();
+            loot.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
+            loot.Consruct(this, randomServise);
+
             return monster;
+        }
+
+        public LootPieace CreateLoot()
+        {
+            var loot =  InstantiateRegistered(AssetsPath.Loot)
+                .GetComponent<LootPieace>();
+
+            loot.Construct(persistentProgress.GetProgress());
+            return loot;
         }
     }
 }

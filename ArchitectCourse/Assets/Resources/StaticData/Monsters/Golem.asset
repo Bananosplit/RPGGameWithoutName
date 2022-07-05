@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Golem
   m_EditorClassIdentifier: 
   MonsterType: 10
+  MaxLoot: 150
+  MinLoot: 50
   Hp: 97.6
   Damage: 13.2
   Cleavage: 0.662

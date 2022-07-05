@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterId: 1
-  Slain: 0
 --- !u!114 &7546720414519902909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,4 +57,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba7765eb4a34b82a01a62c62006b6af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: c9d23d18-31aa-4f80-ac26-655184a54383
+  Id: EnemySpawner_f668ac84-5323-4f18-869e-245b3e3d29ea
